@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人机猜拳 · 我的第一个小游戏</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #e0f2fe, #f5f3ff);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(40, 60, 120, .15);
+      padding: 30px 26px;
+      text-align: center;
+    }
+    h1 { font-size: 26px; color: #1e293b; margin-bottom: 4px; }
+    .sub { color: #64748b; font-size: 14px; margin-bottom: 20px; }
+    .score { display: flex; justify-content: center; gap: 30px; margin-bottom: 22px; }
+    .score div { font-size: 14px; color: #64748b; }
+    .score b { display: block; font-size: 30px; color: #334155; margin-top: 4px; }
+    .stage {
+      font-size: 60px; line-height: 1; height: 80px;
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      margin-bottom: 8px;
+    }
+    .status {
+      font-size: 18px; font-weight: 600; color: #0f172a;
+      min-height: 28px; margin-bottom: 22px;
+    }
+    .choices { display: flex; gap: 14px; justify-content: center; margin-bottom: 10px; }
+    .btn {
+      flex: 1; font-size: 40px; padding: 14px 0; cursor: pointer;
+      border: none; border-radius: 16px; background: #f1f5f9;
+      transition: transform .1s, background .2s;
+    }
+    .btn:hover { background: #e2e8f0; transform: translateY(-3px); }
+    .btn:active { transform: scale(.95); }
+    .reset {
+      margin-top: 12px; font-size: 14px; color: #0f6e56; cursor: pointer;
+      background: none; border: none; text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🤖 人机猜拳</h1>
+    <p class="sub">点击下面的手势，和电脑比一比！</p>
+
+    <div class="score">
+      <div>你赢<b id="win">0</b></div>
+      <div>平局<b id="draw">0</b></div>
+      <div>电脑赢<b id="lose">0</b></div>
+    </div>
+
+    <!-- 上方显示 你出的 vs 电脑出的 -->
+    <div class="stage">
+      <span id="you">✊</span>
+      <span style="color:#94a3b8">vs</span>
+      <span id="cpu">✊</span>
+    </div>
+
+    <div class="status" id="status">点击开始，一决胜负！</div>
+
+    <div class="choices">
+      <button class="btn" onclick="play('✊')" title="石头">✊</button>
+      <button class="btn" onclick="play('✌️')" title="剪刀">✌️</button>
+      <button class="btn" onclick="play('✋')" title="布">✋</button>
+    </div>
+
+    <button class="reset" onclick="resetGame()">重新开始</button>
+  </div>
+
+  <script>
+    var win = 0, draw = 0, lose = 0;
+
+    function play(you) {
+      var cpu = ['✊', '✌️', '✋'][Math.floor(Math.random() * 3)];
+      document.getElementById('you').textContent = you;
+      document.getElementById('cpu').textContent = cpu;
+
+      var msg;
+      if (you === cpu) {
+        msg = '平局！再来一次～';
+        draw++;
+      } else if (
+        (you === '✊' && cpu === '✌️') ||
+        (you === '✌️' && cpu === '✋') ||
+        (you === '✋' && cpu === '✊')
+      ) {
+        msg = '你赢了！厉害 🎉';
+        win++;
+      } else {
+        msg = '电脑赢了，再试一次！';
+        lose++;
+      }
+      document.getElementById('status').textContent = msg;
+      document.getElementById('win').textContent = win;
+      document.getElementById('draw').textContent = draw;
+      document.getElementById('lose').textContent = lose;
+    }
+
+    function resetGame() {
+      win = 0; draw = 0; lose = 0;
+      document.getElementById('win').textContent = 0;
+      document.getElementById('draw').textContent = 0;
+      document.getElementById('lose').textContent = 0;
+      document.getElementById('status').textContent = '点击开始，一决胜负！';
+      document.getElementById('you').textContent = '✊';
+      document.getElementById('cpu').textContent = '✊';
+    }
+  </script>
+</body>
+</html>
